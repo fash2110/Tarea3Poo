@@ -49,15 +49,15 @@ public class Persona{
         correo = pCorreo;
     }
 
-    public void AgregarEmpleado(Empleado pEmpleado){
+    public static void AgregarEmpleado(Empleado pEmpleado){
         empleados.add(pEmpleado);
     }
 
-    public void AgregarCliente(Cliente pCliente){
+    public static void AgregarCliente(Cliente pCliente){
         clientes.add(pCliente);
     }
 
-    public void AgregarProveedor(Proveedor pProveedor){
+    public static void AgregarProveedor(Proveedor pProveedor){
         proveedores.add(pProveedor);
     }
 

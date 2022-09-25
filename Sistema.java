@@ -30,21 +30,23 @@ public class Sistema {
             System.out.print("Ingrese el nombre de la empresa: ");            
             compannia.setNombre(input.nextLine());
             System.out.print("Ingrese el telefono de la empresa: ");
-            client.setTel(input.nextInt());
+            compannia.setTel(input.nextInt());
 
-            for (Empresa e : empresas){
-                if(e.getNombre().equals(compannia.getNombre())){
-                    e.agregarCliente(client);
-                }else{
-                    empresas.add(compannia);
-                    compannia.agregarCliente(client);
+            for (Empresa empresa : empresas) {
+                if(empresa.getNombre().equals(compannia.getNombre())){
+                    empresa.agregarCliente(client);
+                    System.out.println("Cliente agregado a la empresa");
+                    return;
                 }
             }
+            compannia.agregarCliente(client);
+            empresas.add(compannia);
+            System.out.println("Cliente agregado a la empresa");
+        }else{
+            Persona.AgregarCliente(client);
+            System.out.println("Cliente agregado \n");
+            System.out.println(client.toString());
         }
-
-        Persona.clientes.add(client);
-        System.out.println("Cliente agregado \n");
-        System.out.println(client.toString());
 
     }
 
@@ -74,6 +76,115 @@ public class Sistema {
         System.out.println("No se encontro el cliente");
     }
 
+    public static void registarEmpleado(){
+        Scanner entrada = new Scanner(System.in);
+        Empleado emp = new Empleado();
+        System.out.print("Ingrese el nombre del empleado: ");
+        emp.setNombre(entrada.nextLine());
+        System.out.print("Ingrese la identificacion del empleado: ");
+        emp.setId(entrada.nextInt());
+        System.out.print("Ingrese el correo del empleado: ");
+        emp.setCorreo(entrada.nextLine());
+        System.out.print("Ingrese la direccion del empleado: ");
+        emp.setDir(entrada.nextLine());
+        System.out.print("Ingrese el telefono del empleado: ");
+        emp.setTel(entrada.nextInt());
+        System.out.print("Ingrese el salario del empleado: ");
+        emp.setSalario(entrada.nextInt());
+        emp.setFecha(java.time.LocalDate.now().toString());
+
+        Persona.AgregarEmpleado(emp);
+        System.out.println("Empleado agregado \n");
+        System.out.println(emp.toString());
+    }
+
+    public static void registrarProveedor(ArrayList<Empresa> empresas){
+        Scanner entrada = new Scanner(System.in);
+        Proveedor prov = new Proveedor();
+        System.out.print("Ingrese el nombre del proveedor: ");
+        prov.setNombre(entrada.nextLine());
+        System.out.print("Ingrese la identificacion del proveedor: ");
+        prov.setId(entrada.nextInt());
+        System.out.print("Ingrese el correo del proveedor: ");
+        prov.setCorreo(entrada.nextLine());
+        System.out.print("Ingrese la direccion del proveedor: ");
+        prov.setDir(entrada.nextLine());
+        System.out.print("Ingrese el telefono del proveedor: ");
+        prov.setTel(entrada.nextInt());
+        prov.setFecha(java.time.LocalDate.now().toString());
+
+        System.out.println("Es este proveedor parte de una empresa? \n 1. Si \n 2. No");
+        if(entrada.nextInt() == 1){
+            Empresa compannia = new Empresa();
+            Scanner input = new Scanner(System.in);
+            System.out.print("Ingrese el nombre de la empresa: ");            
+            compannia.setNombre(input.nextLine());
+            System.out.print("Ingrese el telefono de la empresa: ");
+            compannia.setTel(input.nextInt());
+
+            for (Empresa empresa : empresas) {
+                if(empresa.getNombre().equals(compannia.getNombre())){
+                    empresa.agregarProveedor(prov);
+                    System.out.println("Proveedor agregado a la empresa");
+                    return;
+                }
+            }
+            compannia.agregarProveedor(prov);
+            empresas.add(compannia);
+            System.out.println("Proveedor agregado a la empresa");
+        }else{
+            Persona.agregarProveedor(prov);
+            System.out.println("Proveedor agregado \n");
+            System.out.println(prov.toString());
+        }
+    }
+
+    public static void mostrarDatos(ArrayList<Empresa> empresas){
+        System.out.println("Clientes: ");
+        for (Cliente c : Persona.clientes){
+            System.out.println(c.toString());
+        }
+        for (Empresa e : empresas){
+            for (Cliente c : e.getClientes()){
+                System.out.println(c.toString());
+            }
+        }
+        System.out.println("---------------\n");
+        System.out.println("Empleados: ");
+        for (Empleado e : Persona.empleados){
+            System.out.println(e.toString());
+        }
+        System.out.println("---------------\n");
+        System.out.println("Proveedores: ");
+        for (Proveedor p : Persona.proveedores){
+            System.out.println(p.toString());
+        }
+        for (Empresa e : empresas){
+            for (Proveedor p : e.getProveedores()){
+                System.out.println(p.toString());
+            }
+        }
+        System.out.println("---------------\n");
+    }
+
+    public static void mostrarClientesEmpresa(ArrayList<Empresa> empresas){
+        int cont = 0;
+        for (Empresa e : empresas){
+            cont += e.getClientes().size();
+        }
+        System.out.println("Clientes que pertenecen a una empresa: " + cont);
+        System.out.println("Clientes que no pertenecen a una empresa: " + (Persona.getClientes.size()));
+    }
+
+    public static void mostrarProveedoresEmpresa(ArrayList<Empresa> empresas){
+        int cont = 0;
+        for (Empresa e : empresas){
+            cont += e.getProveedores().size();
+        }
+        System.out.println("Proveedores que pertenecen a una empresa: " + cont);
+        System.out.println("Proveedores que no pertenecen a una empresa: " + (Persona.getProveedores.size()));
+    }
+
     public static void main(String[] args){
         Cliente cliente0 = new Cliente();
         Proveedor proveedor0 = new Proveedor();
@@ -84,6 +195,7 @@ public class Sistema {
         int opcion = 0;
 
         do{
+            System.out.println(empresas.size());
             System.out.print("\n --- Menu Principal --- \n " 
                 + "1. Registrar Cliente \n " 
                 + "2. Modificar Cliente \n " 
@@ -105,22 +217,24 @@ public class Sistema {
                 break;
 
                 case 3:
-                //insertarEmpleado();
+                registarEmpleado();
                 break;
 
                 case 4:
-                //insertarProveedor();
+                registrarProveedor(empresas);
                 break;
 
                 case 5:
-                //mostrarTodo();
+                mostrarDatos(empresas);
                 break;
 
                 case 6:
-                //mostrarClientes();
+                mostrarClientesEmpresa(empresas);
+                break;
 
                 case 7:
-                //mostrarProveedores();
+                mostrarProveedoresEmpresa(empresas);
+                break;
                 
                 case 8:
                 System.out.println("Saliendo del sistema...");
