@@ -195,7 +195,6 @@ public class Sistema {
         int opcion = 0;
 
         do{
-            System.out.println(empresas.size());
             System.out.print("\n --- Menu Principal --- \n " 
                 + "1. Registrar Cliente \n " 
                 + "2. Modificar Cliente \n " 
